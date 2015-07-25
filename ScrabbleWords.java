@@ -59,9 +59,4 @@ public class ScrabbleWords {
         
     }
 	
-	public static void main(String[] args)
-	{
-		ScrabbleWords s = new ScrabbleWords("input5.txt");
-		System.out.println(s.getValidAnagrams("dorsw"));
-	}
 }
