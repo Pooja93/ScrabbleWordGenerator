@@ -2,27 +2,27 @@ import java.util.*;
 
 class AllWordCombinations{
 	
-	public ArrayList<String> generateAllCombinationsOfWords(String input) {
-		char[] inputArray = input.toCharArray();
-		Arrays.sort(inputArray);
-		ArrayList<String> output = new ArrayList<String>();
+	public ArrayList<String> generateAllCombinationsOfWords(String word) {
+		char[] lettersArray = input.toCharArray();
+		Arrays.sort(lettersArray);
+		ArrayList<String> possibleCombinations = new ArrayList<String>();
 
-		for(int i = 2; i <= inputArray.length; i++) {
-			char[] data = new char[i];
-			combinationUtil(inputArray, data, 0, inputArray.length - 1, 0, i, output);
+		for(int i = 2; i <= lettersArray.length; i++) {
+			char[] letter = new char[i];
+			combinationUtil(lettersArray, letter, 0, lettersArray.length - 1, 0, i, possibleCombinations);
 		}
-		return output;
+		return possibleCombinations;
 	}
 	
-	private void combinationUtil(char[] arr, char[] data, int start, int end, int index, int r, ArrayList<String> listOfWords) {
-		if (index == r) {
+	private void combinationUtil(char[] array, char[] data, int start, int end, int index, int combinationSize, ArrayList<String> listOfWords) {
+		if (index == combinationSize) {
 			listOfWords.add(new String(data));
 			return;
 		}
 
-		for (int i=start; i<=end && end-i+1 >= r-index; i++) {
+		for (int i=start; i<=end && end-i+1 >= combinationSize-index; i++) {
 			data[index] = arr[i];
-			combinationUtil(arr, data, i+1, end, index+1, r, listOfWords);
+			combinationUtil(arr, data, i+1, end, index+1, combinationSize, listOfWords);
 		}
 	}
 
