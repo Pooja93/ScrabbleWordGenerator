@@ -10,4 +10,8 @@ public class AlphabetWeights {
         return alphabetWeights[letter -'a'];
     }
 
+    public static int [] getAllAlphabetWeights() {
+        return alphabetWeights;
+    }
+
 }
