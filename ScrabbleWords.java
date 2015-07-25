@@ -9,6 +9,10 @@ public class ScrabbleWords {
 		constructMapFromFile(file);
 	}
 	
+	public Map<String, String> getAnagrams() {
+		return map;
+	}
+	
 	public boolean validAnagramPresent(String sortedWord) {
 		return map.containsKey(sortedWord);
 	}

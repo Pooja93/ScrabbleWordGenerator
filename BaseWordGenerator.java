@@ -2,11 +2,11 @@ import java.util.*;
 
 class BaseWordGenerator{
 	
-	private static final String FILE = "C:/Users/test/Documents/ScrabbleWordGenerator/sowpods.txt";
-	public static int[] letterScore = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
-	public static Anagrams AnagramCollection;
+	//private static final String FILE = "C:/Users/test/Documents/ScrabbleWordGenerator/sowpods.txt";
+	//public static int[] letterScore = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+	//public static Anagrams AnagramCollection;
 	
-	public static void main (String[] args) throws Exception {
+	/*public static void main (String[] args) throws Exception {
 
 		AnagramCollection = new Anagrams();
         AnagramCollection.readFile(FILE);
@@ -56,7 +56,7 @@ class BaseWordGenerator{
 		for(int entry: sortedWords.keySet()) {
 			System.out.println(entry+" "+sortedWords.get(entry));
 		}
-	}
+	}*/
 
 	public static ArrayList<String> generateAllCombinationsOfWords(String input) {
 		char[] inputArray = input.toCharArray();
@@ -85,21 +85,21 @@ class BaseWordGenerator{
 	public static int wordScore(String word) {
 		int score=0;
 		for(int i = 0; i < word.length(); i++ ) {
-			score += letterScore[word.charAt(i)-'a'];
+			score += AlphabetWeights.getWeight(word.charAt(i));
 		}
 		return score;
 	}
 		
-	public static Map<Integer, String> generateScoreHash(String rack){
+	public static Map<Integer, String> generateScoreHash(String rack, Anagrams AnagramCollection){
 
 		Map<Integer, String> scoreMap = new HashMap<Integer, String>();
 
 		ArrayList<String> allPossibleWords = (generateAllCombinationsOfWords(rack));
-		addToHash(scoreMap,allPossibleWords);
+		addToHash(scoreMap,allPossibleWords,AnagramCollection);
 		return scoreMap;
 	}
 	
-	public static void addToHash(Map<Integer, String> scoreMap, ArrayList<String> words){
+	public static void addToHash(Map<Integer, String> scoreMap, ArrayList<String> words, Anagrams AnagramCollection){
 
 		int score;
 		for(String eachWord: words){
