@@ -14,5 +14,14 @@ public class WordScore {
         }
         return score;
     }
+	
+	public static int getWordScore(String word) {
+		int score = 0;
+        for (int i=0; i< word.length(); i++) {
+                score += AlphabetWeights.getWeight(word.charAt(i);
+            }
+        }
+        return score;
+	}
 
 }
