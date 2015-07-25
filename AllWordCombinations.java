@@ -3,7 +3,7 @@ import java.util.*;
 class AllWordCombinations{
 	
 	public ArrayList<String> generateAllCombinationsOfWords(String word) {
-		char[] lettersArray = input.toCharArray();
+		char[] lettersArray = word.toCharArray();
 		Arrays.sort(lettersArray);
 		ArrayList<String> possibleCombinations = new ArrayList<String>();
 
@@ -21,8 +21,8 @@ class AllWordCombinations{
 		}
 
 		for (int i=start; i<=end && end-i+1 >= combinationSize-index; i++) {
-			data[index] = arr[i];
-			combinationUtil(arr, data, i+1, end, index+1, combinationSize, listOfWords);
+			data[index] = array[i];
+			combinationUtil(array, data, i+1, end, index+1, combinationSize, listOfWords);
 		}
 	}
 
