@@ -7,7 +7,7 @@ public class ReplaceBlanks {
 
     public static ArrayList<String> blankReplacedWords = new ArrayList<String>();
 
-    public static void replaceBlanks(String rackAlphabets) {
+    private static void replaceBlanks(String rackAlphabets) {
 
         if(rackAlphabets.contains(" ")) {
             for(char i='a'; i<='z'; i++) {

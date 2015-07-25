@@ -1,51 +1,93 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by test on 7/24/2015.
  */
 public class BlankHandler {
+    Map<Integer, String> wordWeights = new HashMap<Integer, String>();
+    String rackAlphabets;
+    Map<String, String> scrabbleWords = new HashMap<String, String>();
 
-    BlankHandler(String rackAlphabets) {
-        
+    BlankHandler(String rackAlphabets, Map<String, String> scrabbleWords) {
+        this.rackAlphabets = rackAlphabets;
+        this.scrabbleWords = scrabbleWords;
     }
 
+    BlankHandler(){};
 
-    //old
-    public static int alphabetWeights[] = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
+    public Map<Integer, String> getWordScoreMap() {
 
-    HashMap<Integer, String> updateWordScore = new HashMap<Integer, String>();
-    public static ArrayList<String> blankReplacedWords = new ArrayList<String>();
+        ArrayList<String> blankReplacedWords = ReplaceBlanks.getBlankReplacedWords(rackAlphabets);
+        AllWordCombinations allCombinations = new AllWordCombinations();
 
-    public static void replaceBlanks(String rackAlphabets) {
+        for(String blankReplacedWord: blankReplacedWords) {
+            ArrayList<String> allPossibeWords = allCombinations.generateAllCombinationsOfWords(blankReplacedWord);
 
-        if(rackAlphabets.contains(" ")) {
-            for(char i='a'; i<='z'; i++) {
-                String modifiedWord = rackAlphabets.replaceFirst(" ", Character.toString(i));
-                blankReplacedWords.add(modifiedWord);
-                if(modifiedWord.contains(" ")) {
-                    blankReplacedWords.remove(modifiedWord);
-                    replaceBlanks(modifiedWord);
+            for (String word: allPossibeWords) {
+                String sortedWord = sortString(word);
+                int score = WordScore.getWordScore(sortedWord, rackAlphabets);
+
+                if(scrabbleWords.containsKey(sortedWord)) {
+                    String [] anagramOfWord = scrabbleWords.get(sortedWord).split(" ");
+
+                    for(String anagram: anagramOfWord) {
+                        if(wordWeights.containsKey(score)) {
+                            if(!containsWord(wordWeights.get(score),anagram))
+                                wordWeights.put(score, (wordWeights.get(score))+ " " +anagram);
+                        } else {
+                            wordWeights.put(score, anagram);
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+        return wordWeights;
+    }
+
+    private String sortString(String original) {
+        char[] chars = original.toCharArray();
+        Arrays.sort(chars);
+        return  new String(chars);
+
+    }
+
+    private static boolean containsWord(String sameWeightWords, String comparionWord){
+
+        boolean result=false;
+
+        if(sameWeightWords!=null)
+        {
+            String [] words = sameWeightWords.split(" ");
+
+            for(String word: words) {
+                if (comparionWord.trim().equals(word.trim())) {
+                    return true;
                 }
             }
         }
+        return result;
+
     }
 
-    public static ArrayList<String> getBlankReplacedWords(String word) {
-        replaceBlanks(word);
-        return blankReplacedWords;
-    }
+    //For Testing
+    public static void main(String args[]) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("ad", "a d ad");
+        map.put("abd", "adb");
+        map.put("ads", "sad das");
+        map.put("ade", "aed");
+        map.put("adm", "random");
+        BlankHandler bl = new BlankHandler("a dm", map);
+        Map<Integer, String> output = bl.getWordScoreMap();
 
-    public static int updatedScore(String word, String rackAlphabets) {
-        char [] presentLetters = rackAlphabets.toCharArray();
-
-        int score = 0;
-        for (int i=0; i< presentLetters.length; i++) {
-            if (word.contains(Character.toString(presentLetters[i]))) {
-                score += alphabetWeights[presentLetters[i]-'a'];
-            }
+        for(Integer i: output.keySet()) {
+            System.out.println(i+" ------ "+ output.get(i));
         }
-        return score;
     }
-
 }
