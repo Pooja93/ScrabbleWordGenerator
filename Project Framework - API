@@ -2,14 +2,22 @@ WordSuggestor
   
     Reads input rack of letters
     If for presence of blank
-        call BlankHandler
+        call class: BlankHandler
         returns best possible words with score
     Else 
         returns best possible words with score
     
     Read constraints if any 
-      call PositionalConstraintChecker
+      call class: PositionalConstraintChecker
       returns best possible words with score
+
+
+
+
+
+
+
+
 
 Group 1
   Class:    ScrabbleWordSuggestor 
